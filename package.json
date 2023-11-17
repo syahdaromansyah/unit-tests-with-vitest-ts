@@ -5,10 +5,8 @@
   "type": "module",
   "license": "MIT",
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier -w"
-    ]
+    "*.{js,cjs,mjs,ts,cts,mts}": "eslint --fix",
+    "*.{js,cjs,mjs,ts,cts,mts,json,yaml,yml,md}": "prettier -w"
   },
   "scripts": {
     "lint": "eslint .",
