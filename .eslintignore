@@ -1,0 +1,13 @@
+node_modules/
+
+.*rc.js
+.*rc.[cm]js
+
+*.config.js
+*.config.[cm]js
+
+*.config.ts
+*.config.[cm]ts
+
+.temp/
+.tmp/
