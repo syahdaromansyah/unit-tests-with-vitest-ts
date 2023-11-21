@@ -1,4 +1,4 @@
-class SingleLinkedListNode<T> {
+export class SingleLinkedListNode<T> {
   data: T;
   next: SingleLinkedListNode<T> | null;
 
@@ -9,8 +9,8 @@ class SingleLinkedListNode<T> {
 }
 
 export class SingleLinkedList<T> {
-  private head: SingleLinkedListNode<T> | null;
-  private tail: SingleLinkedListNode<T> | null;
+  protected head: SingleLinkedListNode<T> | null;
+  protected tail: SingleLinkedListNode<T> | null;
 
   constructor() {
     this.head = null;
@@ -29,11 +29,11 @@ export class SingleLinkedList<T> {
   }
 
   appendStart(data: T) {
-    const newLinkedListNode = new SingleLinkedListNode(data, this.head);
-    this.head = newLinkedListNode;
+    const newNode = new SingleLinkedListNode(data, this.head);
+    this.head = newNode;
 
     if (this.tail === null) {
-      this.tail = newLinkedListNode;
+      this.tail = newNode;
     }
   }
 
@@ -41,43 +41,44 @@ export class SingleLinkedList<T> {
     if (this.tail === null) {
       this.appendStart(data);
     } else {
-      const newLinkedListNode = new SingleLinkedListNode(data, null);
-      this.tail.next = newLinkedListNode;
-      this.tail = newLinkedListNode;
+      const newNode = new SingleLinkedListNode(data, null);
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
   }
 
   appendAfterValue(data: T, value: T) {
     let currentNode = this.head;
+
+    if (currentNode === null) {
+      this.appendStart(data);
+      return;
+    }
+
     while (currentNode) {
-      if (currentNode.data === value) {
+      if (currentNode === this.head && currentNode.data === value) {
         currentNode.next = new SingleLinkedListNode(data, currentNode.next);
         break;
       }
 
-      if (currentNode.next) {
-        if (currentNode.next.data === value) {
-          currentNode.next.next = new SingleLinkedListNode(
-            data,
-            currentNode.next.next,
-          );
-
-          this.tail = currentNode.next.next.next
-            ? this.tail
-            : currentNode.next.next;
-
-          break;
-        }
-      } else {
+      if (currentNode.next === null) {
         this.appendEnd(data);
         break;
       }
 
-      currentNode = currentNode.next;
-    }
+      if (currentNode.next.data === value) {
+        currentNode.next.next = new SingleLinkedListNode(
+          data,
+          currentNode.next.next,
+        );
 
-    if (currentNode === null) {
-      this.appendStart(data);
+        this.tail = currentNode.next.next.next
+          ? this.tail
+          : currentNode.next.next;
+        break;
+      }
+
+      currentNode = currentNode.next;
     }
   }
 
@@ -94,17 +95,18 @@ export class SingleLinkedList<T> {
     let currentNode = this.head;
     let deletedTailData: T | null = null;
     while (currentNode) {
-      if (currentNode.next) {
-        if (currentNode.next.next === null) {
-          deletedTailData = currentNode.next.data;
-          currentNode.next = null;
-          this.tail = currentNode;
-          return deletedTailData;
-        }
-      } else {
+      if (currentNode.next === null) {
         deletedTailData = currentNode.data;
         this.head = null;
         this.tail = null;
+        break;
+      }
+
+      if (currentNode.next.next === null) {
+        deletedTailData = currentNode.next.data;
+        currentNode.next = null;
+        this.tail = currentNode;
+        break;
       }
 
       currentNode = currentNode.next;
@@ -116,18 +118,16 @@ export class SingleLinkedList<T> {
   deleteValue(value: T) {
     let currentNode = this.head;
     while (currentNode) {
-      if (currentNode.data === value) {
+      if (currentNode === this.head && currentNode.data === value) {
         this.head = currentNode.next;
         this.tail = currentNode.next ? this.tail : null;
         return value;
       }
 
-      if (currentNode.next) {
-        if (currentNode.next.data === value) {
-          this.tail = currentNode.next.next ? this.tail : currentNode;
-          currentNode.next = currentNode.next.next;
-          return value;
-        }
+      if (currentNode.next?.data === value) {
+        this.tail = currentNode.next.next ? this.tail : currentNode;
+        currentNode.next = currentNode.next.next;
+        return value;
       }
 
       currentNode = currentNode.next;
