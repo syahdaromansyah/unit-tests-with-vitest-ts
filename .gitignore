@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 # Other
+coverage/
 .temp/
 .tmp/
