@@ -86,6 +86,7 @@ export class SingleLinkedList<T> {
     if (this.head === null) return null;
 
     const deletedHeadData = this.head.data;
+    this.tail = this.head.next ? this.tail : null;
     this.head = this.head.next;
 
     return deletedHeadData;
