@@ -1,342 +1,284 @@
 import { beforeEach, describe, expect, test } from 'vitest';
-import { SingleLinkedList } from '../../src/data-structures/single-linked-list.js';
+import {
+  SingleLinkedList,
+  SingleLinkedListNode,
+} from '../../src/data-structures/single-linked-list.js';
 
-describe('Single Linked List Data Structure', () => {
-  let singleLinkedList: SingleLinkedList<string | number>;
+describe('A Single Linked List Data Structure', () => {
+  let singleLinkedList: SingleLinkedList<string>;
 
   beforeEach(() => {
     singleLinkedList = new SingleLinkedList();
   });
 
-  test('should append a new data at the first position', () => {
+  test('should append at the first position', () => {
     singleLinkedList.appendStart('Foo');
-    singleLinkedList.appendStart('Bar');
-    singleLinkedList.appendStart('Zip');
-    singleLinkedList.appendStart('Vin');
+    expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
 
-    expect(singleLinkedList.toArray()).toEqual(['Vin', 'Zip', 'Bar', 'Foo']);
+    let expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+
+    singleLinkedList.appendStart('Bar');
+    expect(singleLinkedList['head']).toEqual(
+      createLinkedListData('Bar', 'Foo'),
+    );
+
+    expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+
+    singleLinkedList.appendStart('Ray');
+    expect(singleLinkedList['head']).toEqual(
+      createLinkedListData('Ray', 'Bar', 'Foo'),
+    );
+
+    expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
   });
 
-  test('should append a new data at the last position', () => {
+  test('should append at the last position', () => {
+    singleLinkedList.appendEnd('Foo');
+    expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
+
+    let expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+
+    singleLinkedList.appendEnd('Bar');
+    expect(singleLinkedList['head']).toEqual(
+      createLinkedListData('Foo', 'Bar'),
+    );
+
+    expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Bar'));
+
+    singleLinkedList.appendEnd('Ray');
+    expect(singleLinkedList['head']).toEqual(
+      createLinkedListData('Foo', 'Bar', 'Ray'),
+    );
+
+    expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+  });
+
+  test('should append at the first or last position', () => {
     singleLinkedList.appendStart('Foo');
     singleLinkedList.appendStart('Bar');
 
+    singleLinkedList.appendEnd('Ray');
     singleLinkedList.appendEnd('Zip');
-    singleLinkedList.appendEnd('Vin');
 
-    singleLinkedList.appendStart('Han');
+    singleLinkedList.appendStart('Vin');
     singleLinkedList.appendStart('Gin');
 
-    expect(singleLinkedList.toArray()).toEqual([
-      'Gin',
-      'Han',
-      'Bar',
-      'Foo',
-      'Zip',
-      'Vin',
-    ]);
+    expect(singleLinkedList['head']).toEqual(
+      createLinkedListData('Gin', 'Vin', 'Bar', 'Foo', 'Ray', 'Zip'),
+    );
+
+    const expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Zip'));
   });
 
-  test('should append a new data after the first specified value', () => {
-    singleLinkedList.appendAfterValue('Yun', 'Raz');
-    singleLinkedList.appendStart('Foo');
-    singleLinkedList.appendStart('Bar');
+  describe('Append After The First Specified Node', () => {
+    test('should append at the first position when the linked list is empty', () => {
+      singleLinkedList.appendAfterValue('Foo', 'Bar');
+      expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
+      expect(singleLinkedList['tail']).toBe(singleLinkedList['head']);
+      expect(singleLinkedList['tail']).toEqual(singleLinkedList['head']);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+    });
 
-    singleLinkedList.appendEnd('Zip');
-    singleLinkedList.appendEnd('Vin');
+    test('should append after the specified node', () => {
+      const { head, tail } = initData('Foo', 'Bar', 'Ray');
 
-    singleLinkedList.appendAfterValue('Tom', 'Foo');
-    singleLinkedList.appendAfterValue('Bun', 'Zip');
-    singleLinkedList.appendAfterValue('Nom', 'Vin');
-    singleLinkedList.appendAfterValue('Dim', 'Taz');
-    singleLinkedList.appendAfterValue('Gin', 'Bar');
+      singleLinkedList['head'] = head;
+      singleLinkedList['tail'] = tail;
 
-    expect(singleLinkedList.toArray()).toEqual([
-      'Bar',
-      'Gin',
-      'Foo',
-      'Tom',
-      'Yun',
-      'Zip',
-      'Bun',
-      'Vin',
-      'Nom',
-      'Dim',
-    ]);
+      singleLinkedList.appendAfterValue('Vin', 'Foo');
+      singleLinkedList.appendAfterValue('Zip', 'Vin');
+      singleLinkedList.appendAfterValue('Gin', 'Ray');
+
+      expect(singleLinkedList['head']).toEqual(
+        createLinkedListData('Foo', 'Vin', 'Zip', 'Bar', 'Ray', 'Gin'),
+      );
+
+      const expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Gin'));
+    });
+
+    test('should append at the last position when the after specified node is not exist', () => {
+      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+
+      singleLinkedList['head'] = head;
+      singleLinkedList['tail'] = tail;
+
+      singleLinkedList.appendAfterValue('Vin', 'Zip');
+      expect(singleLinkedList['head']).toEqual(
+        createLinkedListData('Foo', 'Bar', 'Ray', 'Vin'),
+      );
+
+      const expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Vin'));
+    });
   });
 
   describe('Delete The First Node', () => {
-    test.each([
-      {
-        data: [],
-        iteration: 1,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo'],
-        iteration: 1,
-        expected: {
-          returnValue: 'Foo',
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo'],
-        iteration: 2,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 1,
-        expected: {
-          returnValue: 'Foo',
-          toArray: ['Bar'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 2,
-        expected: {
-          returnValue: 'Bar',
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 3,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-    ])(
-      '$data should be $expected.toArray when deleteHead is $iteration times and return $expected.returnValue',
-      ({ data, iteration, expected }) => {
-        data.forEach((value) => {
-          singleLinkedList.appendEnd(value);
-        });
+    test('should ignore when the data is empty and return null', () => {
+      expect(singleLinkedList.deleteHead()).toBeNull();
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
 
-        for (let i = 0; i < iteration; ++i) {
-          if (i + 1 === iteration && expected.returnValue) {
-            expect(singleLinkedList.deleteHead()).toBe(expected.returnValue);
-            expect(singleLinkedList.toArray()).toEqual(expected.toArray);
-            break;
-          }
+    test('should delete the first node and return the deleted node data', () => {
+      const { head, tail } = initData('Foo', 'Bar', 'Ray');
 
-          if (i + 1 === iteration && expected.returnValue === null) {
-            expect(singleLinkedList.deleteHead()).toBeNull();
-            expect(singleLinkedList.toArray()).toEqual(expected.toArray);
-            break;
-          }
+      singleLinkedList['head'] = head;
+      singleLinkedList['tail'] = tail;
 
-          singleLinkedList.deleteHead();
-        }
-      },
-    );
+      expect(singleLinkedList.deleteHead()).toBe('Foo');
+      expect(singleLinkedList['head']).toEqual(
+        createLinkedListData('Bar', 'Ray'),
+      );
+
+      let expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+
+      expect(singleLinkedList.deleteHead()).toBe('Bar');
+      expect(singleLinkedList['head']).toEqual(createLinkedListData('Ray'));
+
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+
+      expect(singleLinkedList.deleteHead()).toBe('Ray');
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+
+      expect(singleLinkedList.deleteHead()).toBeNull();
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
   });
 
   describe('Delete The Last Node', () => {
-    test.each([
-      {
-        data: [],
-        iteration: 1,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo'],
-        iteration: 1,
-        expected: {
-          returnValue: 'Foo',
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo'],
-        iteration: 2,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 1,
-        expected: {
-          returnValue: 'Bar',
-          toArray: ['Foo'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 2,
-        expected: {
-          returnValue: 'Foo',
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        iteration: 3,
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-    ])(
-      '$data should be $expected.toArray when deleteTail is $iteration times and return $expected.returnValue',
-      ({ data, iteration, expected }) => {
-        data.forEach((value) => {
-          singleLinkedList.appendEnd(value);
-        });
+    test('should ignore when the data is empty and return null', () => {
+      expect(singleLinkedList.deleteTail()).toBeNull();
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
 
-        for (let i = 0; i < iteration; ++i) {
-          if (i + 1 === iteration && expected.returnValue) {
-            expect(singleLinkedList.deleteTail()).toBe(expected.returnValue);
-            expect(singleLinkedList.toArray()).toEqual(expected.toArray);
-            break;
-          }
+    test('should delete the last node and return the deleted node data', () => {
+      const { head, tail } = initData('Foo', 'Bar', 'Ray');
 
-          if (i + 1 === iteration && expected.returnValue === null) {
-            expect(singleLinkedList.deleteTail()).toBeNull();
-            expect(singleLinkedList.toArray()).toEqual(expected.toArray);
-            break;
-          }
+      singleLinkedList['head'] = head;
+      singleLinkedList['tail'] = tail;
 
-          singleLinkedList.deleteTail();
-        }
-      },
-    );
+      expect(singleLinkedList.deleteTail()).toBe('Ray');
+      expect(singleLinkedList['head']).toEqual(
+        createLinkedListData('Foo', 'Bar'),
+      );
+
+      let expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Bar'));
+
+      expect(singleLinkedList.deleteTail()).toBe('Bar');
+      expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
+
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+
+      expect(singleLinkedList.deleteTail()).toBe('Foo');
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+
+      expect(singleLinkedList.deleteTail()).toBeNull();
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
   });
 
   describe('Delete The Specific Node', () => {
-    const testData = [
-      {
-        data: [],
-        value: 'Foo',
-        expected: {
-          returnValue: null,
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo'],
-        value: 'Bar',
-        expected: {
-          returnValue: null,
-          toArray: ['Foo'],
-        },
-      },
-      {
-        data: ['Foo'],
-        value: 'Foo',
-        expected: {
-          returnValue: 'Foo',
-          toArray: [],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        value: 'Ray',
-        expected: {
-          returnValue: null,
-          toArray: ['Foo', 'Bar'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        value: 'Foo',
-        expected: {
-          returnValue: 'Foo',
-          toArray: ['Bar'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar'],
-        value: 'Bar',
-        expected: {
-          returnValue: 'Bar',
-          toArray: ['Foo'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar', 'Ray'],
-        value: 'Zip',
-        expected: {
-          returnValue: null,
-          toArray: ['Foo', 'Bar', 'Ray'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar', 'Ray'],
-        value: 'Foo',
-        expected: {
-          returnValue: 'Foo',
-          toArray: ['Bar', 'Ray'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar', 'Ray'],
-        value: 'Bar',
-        expected: {
-          returnValue: 'Bar',
-          toArray: ['Foo', 'Ray'],
-        },
-      },
-      {
-        data: ['Foo', 'Bar', 'Ray'],
-        value: 'Ray',
-        expected: {
-          returnValue: 'Ray',
-          toArray: ['Foo', 'Bar'],
-        },
-      },
-    ];
+    test('should ignore when the data is empty and return null', () => {
+      expect(singleLinkedList.deleteValue('Foo')).toBeNull();
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
 
-    test.each(testData)(
-      '$data should be $expected.toArray when deleting the node with value $value',
-      ({ data, value, expected }) => {
-        data.forEach((value) => {
-          singleLinkedList.appendEnd(value);
-        });
+    test('should delete the specific node and return the deleted node', () => {
+      const { head, tail } = initData('Foo', 'Bar', 'Ray');
 
-        singleLinkedList.deleteValue(value);
+      singleLinkedList['head'] = head;
+      singleLinkedList['tail'] = tail;
 
-        expect(singleLinkedList.toArray()).toEqual(expected.toArray);
+      expect(singleLinkedList.deleteValue('Bar')).toBe('Bar');
+      expect(singleLinkedList['head']).toEqual(
+        createLinkedListData('Foo', 'Ray'),
+      );
 
-        singleLinkedList = new SingleLinkedList();
-      },
-    );
+      let expectedTail = getTail(singleLinkedList['head']);
 
-    test.each(testData)(
-      '$data should return $expected.returnValue when deleting the node with value $value',
-      ({ data, value, expected }) => {
-        data.forEach((value) => {
-          singleLinkedList.appendEnd(value);
-        });
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
 
-        if (expected.returnValue) {
-          expect(singleLinkedList.deleteValue(value)).toBe(
-            expected.returnValue,
-          );
-        } else {
-          expect(singleLinkedList.deleteValue(value)).toBeNull();
-        }
+      expect(singleLinkedList.deleteValue('Foo')).toBe('Foo');
+      expect(singleLinkedList['head']).toEqual(createLinkedListData('Ray'));
 
-        singleLinkedList = new SingleLinkedList();
-      },
-    );
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+
+      expect(singleLinkedList.deleteValue('Ray')).toBe('Ray');
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+
+      expect(singleLinkedList.deleteValue('Vin')).toBeNull();
+      expect(singleLinkedList.deleteValue('Gin')).toBeNull();
+
+      expect(singleLinkedList['head']).toBeNull();
+      expect(singleLinkedList['tail']).toBeNull();
+    });
   });
 
-  test('should ignore deleting the node on empty linked list', () => {
+  test('should ignore when deleting the node on the empty linked list', () => {
     expect(singleLinkedList.deleteHead()).toBeNull();
     expect(singleLinkedList.deleteHead()).toBeNull();
 
@@ -346,15 +288,16 @@ describe('Single Linked List Data Structure', () => {
     expect(singleLinkedList.deleteTail()).toBeNull();
     expect(singleLinkedList.deleteTail()).toBeNull();
 
-    expect(singleLinkedList.toArray().length).toBe(0);
+    expect(singleLinkedList['head']).toBeNull();
+    expect(singleLinkedList['tail']).toBeNull();
   });
 
   test('should return true when the data is exist', () => {
     const data = ['Foo', 'Bar', 'Ray'];
+    const { head, tail } = initData(...data);
 
-    data.forEach((value) => {
-      singleLinkedList.appendEnd(value);
-    });
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
 
     data.forEach((value) => {
       expect(singleLinkedList.contain(value)).toBeTruthy();
@@ -362,24 +305,84 @@ describe('Single Linked List Data Structure', () => {
   });
 
   test('should return false when the data is not exist', () => {
-    const data = ['Foo', 'Bar', 'Ray'];
+    const { head, tail } = initData('Foo', 'Bar', 'Ray');
 
-    data.forEach((value) => {
-      singleLinkedList.appendEnd(value);
-    });
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
 
     expect(singleLinkedList.contain('Zip')).toBeFalsy();
   });
 
-  test('should clear all data', () => {
-    const data = ['Foo', 'Bar', 'Ray'];
+  test('should return the length of the linked list', () => {
+    expect(singleLinkedList.length).toBe(0);
 
-    data.forEach((value) => {
-      singleLinkedList.appendEnd(value);
-    });
+    const { head, tail } = initData('Foo', 'Bar', 'Ray');
+
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
+
+    expect(singleLinkedList.length).toBe(3);
+  });
+
+  test('should convert to array form', () => {
+    const data = ['Foo', 'Bar', 'Ray'];
+    const { head, tail } = initData(...data);
+
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
+
+    expect(singleLinkedList.toArray()).toEqual(data);
+  });
+
+  test('should clear all data', () => {
+    const { head, tail } = initData('Foo', 'Bar', 'Ray');
+
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
 
     singleLinkedList.clear();
 
-    expect(singleLinkedList.toArray().length).toBe(0);
+    expect(singleLinkedList['head']).toBeNull();
+    expect(singleLinkedList['tail']).toBeNull();
   });
+
+  test.todo('should do an iterable operation');
 });
+
+function createLinkedListData(...value: string[]) {
+  let result = null;
+
+  for (let i = value.length - 1; i >= 0; --i) {
+    if (i === value.length - 1) {
+      result = new SingleLinkedListNode(value[i], null);
+    } else {
+      result = new SingleLinkedListNode(value[i], result);
+    }
+  }
+
+  return result;
+}
+
+function getTail<T>(head: SingleLinkedListNode<T> | null) {
+  let tail = null;
+  let currentNode = head;
+
+  while (currentNode) {
+    if (currentNode.next === null) {
+      tail = currentNode;
+    }
+
+    currentNode = currentNode.next;
+  }
+
+  return tail;
+}
+
+function initData(...value: string[]) {
+  const head = createLinkedListData(...value);
+
+  return {
+    head,
+    tail: getTail(head),
+  };
+}
