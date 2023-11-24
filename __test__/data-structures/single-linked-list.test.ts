@@ -349,7 +349,7 @@ describe('A Single Linked List Data Structure', () => {
   test.todo('should do an iterable operation');
 });
 
-function createLinkedListData(...value: string[]) {
+function createLinkedListData<T>(...value: T[]) {
   let result = null;
 
   for (let i = value.length - 1; i >= 0; --i) {
@@ -378,7 +378,7 @@ function getTail<T>(head: SingleLinkedListNode<T> | null) {
   return tail;
 }
 
-function initData(...value: string[]) {
+function initData<T>(...value: T[]) {
   const head = createLinkedListData(...value);
 
   return {
