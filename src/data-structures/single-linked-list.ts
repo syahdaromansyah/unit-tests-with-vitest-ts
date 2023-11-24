@@ -165,4 +165,13 @@ export class SingleLinkedList<T> {
     this.head = null;
     this.tail = null;
   }
+
+  *[Symbol.iterator]() {
+    let currentNode = this.head;
+
+    while (currentNode) {
+      yield currentNode.data;
+      currentNode = currentNode.next;
+    }
+  }
 }
