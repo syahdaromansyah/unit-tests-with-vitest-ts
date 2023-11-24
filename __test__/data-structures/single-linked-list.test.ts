@@ -346,7 +346,19 @@ describe('A Single Linked List Data Structure', () => {
     expect(singleLinkedList['tail']).toBeNull();
   });
 
-  test.todo('should do an iterable operation');
+  test('should do an iterable operation', () => {
+    const data = ['Foo', 'Bar', 'Ray', 'Vin'];
+    const { head, tail } = initData(...data);
+
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
+
+    let i = 0;
+    for (const value of singleLinkedList) {
+      expect(value).toBe(data[i]);
+      i += 1;
+    }
+  });
 });
 
 function createLinkedListData<T>(...value: T[]) {
