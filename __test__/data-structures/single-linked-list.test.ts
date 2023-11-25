@@ -5,10 +5,11 @@ import {
 } from '../../src/data-structures/single-linked-list.js';
 
 describe('A Single Linked List Data Structure', () => {
-  let singleLinkedList: SingleLinkedList<string>;
+  const singleLinkedList = new SingleLinkedList();
 
   beforeEach(() => {
-    singleLinkedList = new SingleLinkedList();
+    singleLinkedList['head'] = null;
+    singleLinkedList['tail'] = null;
   });
 
   test('should append at the first position', () => {
@@ -364,7 +365,7 @@ describe('A Single Linked List Data Structure', () => {
 function createLinkedListData<T>(...value: T[]) {
   let result = null;
 
-  for (let i = value.length - 1; i >= 0; --i) {
+  for (let i = value.length - 1; i >= 0; i -= 1) {
     if (i === value.length - 1) {
       result = new SingleLinkedListNode(value[i], null);
     } else {
