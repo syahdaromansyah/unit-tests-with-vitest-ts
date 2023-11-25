@@ -18,8 +18,9 @@ export class SingleLinkedList<T> {
   }
 
   get length() {
-    let length = 0;
     let currentNode = this.head;
+    let length = 0;
+
     while (currentNode) {
       length += 1;
       currentNode = currentNode.next;
@@ -32,9 +33,7 @@ export class SingleLinkedList<T> {
     const newNode = new SingleLinkedListNode(data, this.head);
     this.head = newNode;
 
-    if (this.tail === null) {
-      this.tail = newNode;
-    }
+    if (this.tail === null) this.tail = newNode;
   }
 
   appendEnd(data: T) {
@@ -75,6 +74,7 @@ export class SingleLinkedList<T> {
         this.tail = currentNode.next.next.next
           ? this.tail
           : currentNode.next.next;
+
         break;
       }
 
@@ -84,8 +84,8 @@ export class SingleLinkedList<T> {
 
   deleteHead() {
     if (this.head === null) return null;
-
     const deletedHeadData = this.head.data;
+
     this.tail = this.head.next ? this.tail : null;
     this.head = this.head.next;
 
@@ -95,17 +95,21 @@ export class SingleLinkedList<T> {
   deleteTail() {
     let currentNode = this.head;
     let deletedTailData: T | null = null;
+
     while (currentNode) {
       if (currentNode.next === null) {
         deletedTailData = currentNode.data;
+
         this.head = null;
         this.tail = null;
+
         break;
       }
 
       if (currentNode.next.next === null) {
         deletedTailData = currentNode.next.data;
         currentNode.next = null;
+
         this.tail = currentNode;
         break;
       }
@@ -118,6 +122,7 @@ export class SingleLinkedList<T> {
 
   deleteValue(value: T) {
     let currentNode = this.head;
+
     while (currentNode) {
       if (currentNode === this.head && currentNode.data === value) {
         this.head = currentNode.next;
@@ -139,11 +144,9 @@ export class SingleLinkedList<T> {
 
   contain(value: T) {
     let currentNode = this.head;
-    while (currentNode) {
-      if (currentNode.data === value) {
-        return true;
-      }
 
+    while (currentNode) {
+      if (currentNode.data === value) return true;
       currentNode = currentNode.next;
     }
 
@@ -153,6 +156,7 @@ export class SingleLinkedList<T> {
   toArray() {
     const result: T[] = [];
     let currentNode = this.head;
+
     while (currentNode) {
       result.push(currentNode.data);
       currentNode = currentNode.next;
