@@ -362,14 +362,14 @@ describe('A Single Linked List Data Structure', () => {
   });
 });
 
-function createLinkedListData<T>(...value: T[]) {
+function createLinkedListData<T>(...values: T[]) {
   let result = null;
 
-  for (let i = value.length - 1; i >= 0; i -= 1) {
-    if (i === value.length - 1) {
-      result = new SingleLinkedListNode(value[i], null);
+  for (let i = values.length - 1; i >= 0; i -= 1) {
+    if (i === values.length - 1) {
+      result = new SingleLinkedListNode(values[i], null);
     } else {
-      result = new SingleLinkedListNode(value[i], result);
+      result = new SingleLinkedListNode(values[i], result);
     }
   }
 
@@ -391,8 +391,8 @@ function getTail<T>(head: SingleLinkedListNode<T> | null) {
   return tail;
 }
 
-function initData<T>(...value: T[]) {
-  const head = createLinkedListData(...value);
+function initData<T>(...values: T[]) {
+  const head = createLinkedListData(...values);
 
   return {
     head,
