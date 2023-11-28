@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 import {
   SingleLinkedList,
   SingleLinkedListNode,
@@ -7,7 +7,7 @@ import {
 describe('A Single Linked List Data Structure', () => {
   const singleLinkedList = new SingleLinkedList();
 
-  beforeEach(() => {
+  afterEach(() => {
     singleLinkedList['head'] = null;
     singleLinkedList['tail'] = null;
   });
