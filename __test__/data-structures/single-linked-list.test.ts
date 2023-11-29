@@ -109,7 +109,7 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should append after the specified node', () => {
-      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -130,7 +130,7 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should append at the last position when the after specified node is not exist', () => {
-      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -156,7 +156,7 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the first node and return the deleted node data', () => {
-      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -199,7 +199,7 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the last node and return the deleted node data', () => {
-      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -242,7 +242,7 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the specific node and return the deleted node', () => {
-      const { head, tail } = initData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -295,7 +295,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should return true when the data is exist', () => {
     const data = ['Foo', 'Bar', 'Ray'];
-    const { head, tail } = initData(...data);
+    const { head, tail } = initLinkedListData(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -306,7 +306,7 @@ describe('A Single Linked List Data Structure', () => {
   });
 
   test('should return false when the data is not exist', () => {
-    const { head, tail } = initData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -317,7 +317,7 @@ describe('A Single Linked List Data Structure', () => {
   test('should return the length of the linked list', () => {
     expect(singleLinkedList.length).toBe(0);
 
-    const { head, tail } = initData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -327,7 +327,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should convert to array form', () => {
     const data = ['Foo', 'Bar', 'Ray'];
-    const { head, tail } = initData(...data);
+    const { head, tail } = initLinkedListData(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -336,7 +336,7 @@ describe('A Single Linked List Data Structure', () => {
   });
 
   test('should clear all data', () => {
-    const { head, tail } = initData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -349,7 +349,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should do an iterable operation', () => {
     const data = ['Foo', 'Bar', 'Ray', 'Vin'];
-    const { head, tail } = initData(...data);
+    const { head, tail } = initLinkedListData(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -391,7 +391,7 @@ function getTail<T>(head: SingleLinkedListNode<T> | null) {
   return tail;
 }
 
-function initData<T>(...values: T[]) {
+function initLinkedListData<T>(...values: T[]) {
   const head = createLinkedListData(...values);
 
   return {
