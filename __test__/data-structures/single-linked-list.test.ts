@@ -1,11 +1,21 @@
 import { afterEach, describe, expect, test } from 'vitest';
+
 import {
   SingleLinkedList,
   SingleLinkedListNode,
 } from '../../src/data-structures/single-linked-list.js';
 
+import {
+  getTail,
+  initSingleLinkedListNodes as initNodes,
+  type LinkedListNodeTypes,
+} from '../__test-helper/linked-list.js';
+
 describe('A Single Linked List Data Structure', () => {
-  const singleLinkedList = new SingleLinkedList();
+  const singleLinkedList = new SingleLinkedList<string>();
+
+  let mockedNodes: SingleLinkedListNode<string> | null = null;
+  let expectedTail: LinkedListNodeTypes<string> | null = null;
 
   afterEach(() => {
     singleLinkedList['head'] = null;
@@ -14,68 +24,78 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should append at the first position', () => {
     singleLinkedList.appendStart('Foo');
-    expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
 
-    let expectedTail = getTail(singleLinkedList['head']);
+    mockedNodes = initNodes('Foo').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+    expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
     singleLinkedList.appendStart('Bar');
-    expect(singleLinkedList['head']).toEqual(
-      createLinkedListData('Bar', 'Foo'),
-    );
+
+    mockedNodes = initNodes('Bar', 'Foo').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
     singleLinkedList.appendStart('Ray');
-    expect(singleLinkedList['head']).toEqual(
-      createLinkedListData('Ray', 'Bar', 'Foo'),
-    );
+
+    mockedNodes = initNodes('Ray', 'Bar', 'Foo').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
   });
 
   test('should append at the last position', () => {
     singleLinkedList.appendEnd('Foo');
-    expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
 
-    let expectedTail = getTail(singleLinkedList['head']);
+    mockedNodes = initNodes('Foo').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+    expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
     singleLinkedList.appendEnd('Bar');
-    expect(singleLinkedList['head']).toEqual(
-      createLinkedListData('Foo', 'Bar'),
-    );
+
+    mockedNodes = initNodes('Foo', 'Bar').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Bar'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
     singleLinkedList.appendEnd('Ray');
-    expect(singleLinkedList['head']).toEqual(
-      createLinkedListData('Foo', 'Bar', 'Ray'),
-    );
+
+    mockedNodes = initNodes('Foo', 'Bar', 'Ray').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
   });
 
   test('should append at the first or last position', () => {
@@ -88,28 +108,32 @@ describe('A Single Linked List Data Structure', () => {
     singleLinkedList.appendStart('Vin');
     singleLinkedList.appendStart('Gin');
 
-    expect(singleLinkedList['head']).toEqual(
-      createLinkedListData('Gin', 'Vin', 'Bar', 'Foo', 'Ray', 'Zip'),
-    );
+    mockedNodes = initNodes('Gin', 'Vin', 'Bar', 'Foo', 'Ray', 'Zip').head;
 
-    const expectedTail = getTail(singleLinkedList['head']);
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+    expectedTail = getTail(singleLinkedList['head']);
 
     expect(singleLinkedList['tail']).toBe(expectedTail);
     expect(singleLinkedList['tail']).toEqual(expectedTail);
-    expect(singleLinkedList['tail']).toEqual(createLinkedListData('Zip'));
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
   });
 
   describe('Append After The First Specified Node', () => {
     test('should append at the first position when the linked list is empty', () => {
       singleLinkedList.appendAfterValue('Foo', 'Bar');
-      expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
+
+      mockedNodes = initNodes('Foo').head;
+
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
       expect(singleLinkedList['tail']).toBe(singleLinkedList['head']);
       expect(singleLinkedList['tail']).toEqual(singleLinkedList['head']);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
     });
 
     test('should append after the specified node', () => {
-      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
@@ -118,33 +142,34 @@ describe('A Single Linked List Data Structure', () => {
       singleLinkedList.appendAfterValue('Zip', 'Vin');
       singleLinkedList.appendAfterValue('Gin', 'Ray');
 
-      expect(singleLinkedList['head']).toEqual(
-        createLinkedListData('Foo', 'Vin', 'Zip', 'Bar', 'Ray', 'Gin'),
-      );
+      mockedNodes = initNodes('Foo', 'Vin', 'Zip', 'Bar', 'Ray', 'Gin').head;
 
-      const expectedTail = getTail(singleLinkedList['head']);
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(singleLinkedList['head']);
 
       expect(singleLinkedList['tail']).toBe(expectedTail);
       expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Gin'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
     });
 
     test('should append at the last position when the after specified node is not exist', () => {
-      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
 
       singleLinkedList.appendAfterValue('Vin', 'Zip');
-      expect(singleLinkedList['head']).toEqual(
-        createLinkedListData('Foo', 'Bar', 'Ray', 'Vin'),
-      );
 
-      const expectedTail = getTail(singleLinkedList['head']);
+      mockedNodes = initNodes('Foo', 'Bar', 'Ray', 'Vin').head;
+
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(singleLinkedList['head']);
 
       expect(singleLinkedList['tail']).toBe(expectedTail);
       expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Vin'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
     });
   });
 
@@ -156,36 +181,42 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the first node and return the deleted node data', () => {
-      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
 
       expect(singleLinkedList.deleteHead()).toBe('Foo');
-      expect(singleLinkedList['head']).toEqual(
-        createLinkedListData('Bar', 'Ray'),
-      );
 
-      let expectedTail = getTail(singleLinkedList['head']);
+      mockedNodes = initNodes('Bar', 'Ray').head;
 
-      expect(singleLinkedList['tail']).toBe(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
-
-      expect(singleLinkedList.deleteHead()).toBe('Bar');
-      expect(singleLinkedList['head']).toEqual(createLinkedListData('Ray'));
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
 
       expect(singleLinkedList['tail']).toBe(expectedTail);
       expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
+
+      expect(singleLinkedList.deleteHead()).toBe('Bar');
+
+      mockedNodes = initNodes('Ray').head;
+
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
       expect(singleLinkedList.deleteHead()).toBe('Ray');
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
       expect(singleLinkedList.deleteHead()).toBeNull();
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
     });
@@ -199,36 +230,42 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the last node and return the deleted node data', () => {
-      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
 
       expect(singleLinkedList.deleteTail()).toBe('Ray');
-      expect(singleLinkedList['head']).toEqual(
-        createLinkedListData('Foo', 'Bar'),
-      );
 
-      let expectedTail = getTail(singleLinkedList['head']);
+      mockedNodes = initNodes('Foo', 'Bar').head;
 
-      expect(singleLinkedList['tail']).toBe(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Bar'));
-
-      expect(singleLinkedList.deleteTail()).toBe('Bar');
-      expect(singleLinkedList['head']).toEqual(createLinkedListData('Foo'));
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
 
       expect(singleLinkedList['tail']).toBe(expectedTail);
       expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Foo'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
+
+      expect(singleLinkedList.deleteTail()).toBe('Bar');
+
+      mockedNodes = initNodes('Foo').head;
+
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
       expect(singleLinkedList.deleteTail()).toBe('Foo');
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
       expect(singleLinkedList.deleteTail()).toBeNull();
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
     });
@@ -242,32 +279,37 @@ describe('A Single Linked List Data Structure', () => {
     });
 
     test('should delete the specific node and return the deleted node', () => {
-      const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
       singleLinkedList['head'] = head;
       singleLinkedList['tail'] = tail;
 
       expect(singleLinkedList.deleteValue('Bar')).toBe('Bar');
-      expect(singleLinkedList['head']).toEqual(
-        createLinkedListData('Foo', 'Ray'),
-      );
 
-      let expectedTail = getTail(singleLinkedList['head']);
+      mockedNodes = initNodes('Foo', 'Ray').head;
 
-      expect(singleLinkedList['tail']).toBe(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
-
-      expect(singleLinkedList.deleteValue('Foo')).toBe('Foo');
-      expect(singleLinkedList['head']).toEqual(createLinkedListData('Ray'));
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
 
       expect(singleLinkedList['tail']).toBe(expectedTail);
       expect(singleLinkedList['tail']).toEqual(expectedTail);
-      expect(singleLinkedList['tail']).toEqual(createLinkedListData('Ray'));
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
+
+      expect(singleLinkedList.deleteValue('Foo')).toBe('Foo');
+
+      mockedNodes = initNodes('Ray').head;
+
+      expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(singleLinkedList['head']);
+
+      expect(singleLinkedList['tail']).toBe(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(expectedTail);
+      expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
 
       expect(singleLinkedList.deleteValue('Ray')).toBe('Ray');
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
@@ -295,7 +337,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should return true when the data is exist', () => {
     const data = ['Foo', 'Bar', 'Ray'];
-    const { head, tail } = initLinkedListData(...data);
+    const { head, tail } = initNodes(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -306,7 +348,7 @@ describe('A Single Linked List Data Structure', () => {
   });
 
   test('should return false when the data is not exist', () => {
-    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -317,7 +359,7 @@ describe('A Single Linked List Data Structure', () => {
   test('should return the length of the linked list', () => {
     expect(singleLinkedList.length).toBe(0);
 
-    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -327,7 +369,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should convert to array form', () => {
     const data = ['Foo', 'Bar', 'Ray'];
-    const { head, tail } = initLinkedListData(...data);
+    const { head, tail } = initNodes(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -336,7 +378,7 @@ describe('A Single Linked List Data Structure', () => {
   });
 
   test('should clear all data', () => {
-    const { head, tail } = initLinkedListData('Foo', 'Bar', 'Ray');
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -349,7 +391,7 @@ describe('A Single Linked List Data Structure', () => {
 
   test('should do an iterable operation', () => {
     const data = ['Foo', 'Bar', 'Ray', 'Vin'];
-    const { head, tail } = initLinkedListData(...data);
+    const { head, tail } = initNodes(...data);
 
     singleLinkedList['head'] = head;
     singleLinkedList['tail'] = tail;
@@ -361,41 +403,3 @@ describe('A Single Linked List Data Structure', () => {
     }
   });
 });
-
-function createLinkedListData<T>(...values: T[]) {
-  let result = null;
-
-  for (let i = values.length - 1; i >= 0; i -= 1) {
-    if (i === values.length - 1) {
-      result = new SingleLinkedListNode(values[i], null);
-    } else {
-      result = new SingleLinkedListNode(values[i], result);
-    }
-  }
-
-  return result;
-}
-
-function getTail<T>(head: SingleLinkedListNode<T> | null) {
-  let tail = null;
-  let currentNode = head;
-
-  while (currentNode) {
-    if (currentNode.next === null) {
-      tail = currentNode;
-    }
-
-    currentNode = currentNode.next;
-  }
-
-  return tail;
-}
-
-function initLinkedListData<T>(...values: T[]) {
-  const head = createLinkedListData(...values);
-
-  return {
-    head,
-    tail: getTail(head),
-  };
-}
