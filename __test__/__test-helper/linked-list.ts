@@ -1,6 +1,10 @@
+import { DoublyLinkedListNode } from '../../src/data-structures/doubly-linked-list.js';
+
 import { SingleLinkedListNode } from '../../src/data-structures/single-linked-list.js';
 
-export type LinkedListNodeTypes<T> = SingleLinkedListNode<T>;
+export type LinkedListNodeTypes<T> =
+  | SingleLinkedListNode<T>
+  | DoublyLinkedListNode<T>;
 
 export function getTail<T>(head: LinkedListNodeTypes<T> | null) {
   let tail = null;
@@ -31,5 +35,24 @@ export function initSingleLinkedListNodes<T>(...values: T[]) {
   return {
     head,
     tail: getTail(head),
+  };
+}
+
+export function initDoublyLinkedListNodes<T>(...values: T[]) {
+  let head: DoublyLinkedListNode<T> | null = null;
+
+  for (let i = values.length - 1; i >= 0; i -= 1) {
+    if (head === null) {
+      head = new DoublyLinkedListNode(null, values[i], null);
+    } else {
+      const newNode = new DoublyLinkedListNode(null, values[i], head);
+      head.prev = newNode;
+      head = head.prev;
+    }
+  }
+
+  return {
+    head,
+    tail: getTail(head) as typeof head,
   };
 }
