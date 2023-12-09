@@ -27,6 +27,8 @@ describe('A Single Linked List Data Structure', () => {
 
     mockedNodes = initNodes('Foo').head;
 
+    expect(singleLinkedList.length).toBe(1);
+
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
@@ -39,6 +41,8 @@ describe('A Single Linked List Data Structure', () => {
 
     mockedNodes = initNodes('Bar', 'Foo').head;
 
+    expect(singleLinkedList.length).toBe(2);
+
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
@@ -50,6 +54,8 @@ describe('A Single Linked List Data Structure', () => {
     singleLinkedList.appendStart('Ray');
 
     mockedNodes = initNodes('Ray', 'Bar', 'Foo').head;
+
+    expect(singleLinkedList.length).toBe(3);
 
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
@@ -65,6 +71,8 @@ describe('A Single Linked List Data Structure', () => {
 
     mockedNodes = initNodes('Foo').head;
 
+    expect(singleLinkedList.length).toBe(1);
+
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
@@ -77,6 +85,8 @@ describe('A Single Linked List Data Structure', () => {
 
     mockedNodes = initNodes('Foo', 'Bar').head;
 
+    expect(singleLinkedList.length).toBe(2);
+
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
@@ -88,6 +98,8 @@ describe('A Single Linked List Data Structure', () => {
     singleLinkedList.appendEnd('Ray');
 
     mockedNodes = initNodes('Foo', 'Bar', 'Ray').head;
+
+    expect(singleLinkedList.length).toBe(3);
 
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
@@ -110,6 +122,8 @@ describe('A Single Linked List Data Structure', () => {
 
     mockedNodes = initNodes('Gin', 'Vin', 'Bar', 'Foo', 'Ray', 'Zip').head;
 
+    expect(singleLinkedList.length).toBe(6);
+
     expect(singleLinkedList['head']).toEqual(mockedNodes);
 
     expectedTail = getTail(singleLinkedList['head']);
@@ -124,6 +138,8 @@ describe('A Single Linked List Data Structure', () => {
       singleLinkedList.appendAfterValue('Foo', 'Bar');
 
       mockedNodes = initNodes('Foo').head;
+
+      expect(singleLinkedList.length).toBe(1);
 
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
@@ -144,6 +160,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Foo', 'Vin', 'Zip', 'Bar', 'Ray', 'Gin').head;
 
+      expect(singleLinkedList.length).toBe(6);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -163,6 +181,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Foo', 'Bar', 'Ray', 'Vin').head;
 
+      expect(singleLinkedList.length).toBe(4);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -176,6 +196,8 @@ describe('A Single Linked List Data Structure', () => {
   describe('Delete The First Node', () => {
     test('should ignore when the data is empty and return null', () => {
       expect(singleLinkedList.deleteHead()).toBeNull();
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
     });
@@ -190,6 +212,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Bar', 'Ray').head;
 
+      expect(singleLinkedList.length).toBe(2);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -202,6 +226,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Ray').head;
 
+      expect(singleLinkedList.length).toBe(1);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -212,10 +238,14 @@ describe('A Single Linked List Data Structure', () => {
 
       expect(singleLinkedList.deleteHead()).toBe('Ray');
 
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
       expect(singleLinkedList.deleteHead()).toBeNull();
+
+      expect(singleLinkedList.length).toBe(0);
 
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
@@ -225,6 +255,8 @@ describe('A Single Linked List Data Structure', () => {
   describe('Delete The Last Node', () => {
     test('should ignore when the data is empty and return null', () => {
       expect(singleLinkedList.deleteTail()).toBeNull();
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
     });
@@ -239,6 +271,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Foo', 'Bar').head;
 
+      expect(singleLinkedList.length).toBe(2);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -251,6 +285,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Foo').head;
 
+      expect(singleLinkedList.length).toBe(1);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -261,10 +297,14 @@ describe('A Single Linked List Data Structure', () => {
 
       expect(singleLinkedList.deleteTail()).toBe('Foo');
 
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
       expect(singleLinkedList.deleteTail()).toBeNull();
+
+      expect(singleLinkedList.length).toBe(0);
 
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
@@ -274,6 +314,8 @@ describe('A Single Linked List Data Structure', () => {
   describe('Delete The Specific Node', () => {
     test('should ignore when the data is empty and return null', () => {
       expect(singleLinkedList.deleteValue('Foo')).toBeNull();
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
     });
@@ -288,6 +330,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Foo', 'Ray').head;
 
+      expect(singleLinkedList.length).toBe(2);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -300,6 +344,8 @@ describe('A Single Linked List Data Structure', () => {
 
       mockedNodes = initNodes('Ray').head;
 
+      expect(singleLinkedList.length).toBe(1);
+
       expect(singleLinkedList['head']).toEqual(mockedNodes);
 
       expectedTail = getTail(singleLinkedList['head']);
@@ -310,11 +356,15 @@ describe('A Single Linked List Data Structure', () => {
 
       expect(singleLinkedList.deleteValue('Ray')).toBe('Ray');
 
+      expect(singleLinkedList.length).toBe(0);
+
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
 
       expect(singleLinkedList.deleteValue('Vin')).toBeNull();
       expect(singleLinkedList.deleteValue('Gin')).toBeNull();
+
+      expect(singleLinkedList.length).toBe(0);
 
       expect(singleLinkedList['head']).toBeNull();
       expect(singleLinkedList['tail']).toBeNull();
@@ -325,11 +375,17 @@ describe('A Single Linked List Data Structure', () => {
     expect(singleLinkedList.deleteHead()).toBeNull();
     expect(singleLinkedList.deleteHead()).toBeNull();
 
+    expect(singleLinkedList.length).toBe(0);
+
     expect(singleLinkedList.deleteValue('Foo')).toBeNull();
     expect(singleLinkedList.deleteValue('Bar')).toBeNull();
 
+    expect(singleLinkedList.length).toBe(0);
+
     expect(singleLinkedList.deleteTail()).toBeNull();
     expect(singleLinkedList.deleteTail()).toBeNull();
+
+    expect(singleLinkedList.length).toBe(0);
 
     expect(singleLinkedList['head']).toBeNull();
     expect(singleLinkedList['tail']).toBeNull();
@@ -356,17 +412,6 @@ describe('A Single Linked List Data Structure', () => {
     expect(singleLinkedList.contain('Zip')).toBeFalsy();
   });
 
-  test('should return the length of the linked list', () => {
-    expect(singleLinkedList.length).toBe(0);
-
-    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
-
-    singleLinkedList['head'] = head;
-    singleLinkedList['tail'] = tail;
-
-    expect(singleLinkedList.length).toBe(3);
-  });
-
   test('should convert to array form', () => {
     const data = ['Foo', 'Bar', 'Ray'];
     const { head, tail } = initNodes(...data);
@@ -384,6 +429,8 @@ describe('A Single Linked List Data Structure', () => {
     singleLinkedList['tail'] = tail;
 
     singleLinkedList.clear();
+
+    expect(singleLinkedList.length).toBe(0);
 
     expect(singleLinkedList['head']).toBeNull();
     expect(singleLinkedList['tail']).toBeNull();
