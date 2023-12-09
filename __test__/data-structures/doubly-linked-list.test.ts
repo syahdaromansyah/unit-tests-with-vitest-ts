@@ -7,7 +7,6 @@ import {
 
 import {
   getTail,
-  initDoublyLinkedListNodes as initNodes,
   type LinkedListNodeTypes,
 } from '../__test-helper/linked-list.js';
 
@@ -566,3 +565,22 @@ describe('A Doubly Linked List Data Structure', () => {
     });
   });
 });
+
+function initNodes<T>(...values: T[]) {
+  let head: DoublyLinkedListNode<T> | null = null;
+
+  for (let i = values.length - 1; i >= 0; i -= 1) {
+    if (head === null) {
+      head = new DoublyLinkedListNode(null, values[i], null);
+    } else {
+      const newNode = new DoublyLinkedListNode(null, values[i], head);
+      head.prev = newNode;
+      head = head.prev;
+    }
+  }
+
+  return {
+    head,
+    tail: getTail(head) as typeof head,
+  };
+}

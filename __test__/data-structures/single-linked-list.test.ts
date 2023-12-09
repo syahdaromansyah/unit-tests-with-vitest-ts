@@ -7,7 +7,6 @@ import {
 
 import {
   getTail,
-  initSingleLinkedListNodes as initNodes,
   type LinkedListNodeTypes,
 } from '../__test-helper/linked-list.js';
 
@@ -450,3 +449,20 @@ describe('A Single Linked List Data Structure', () => {
     }
   });
 });
+
+function initNodes<T>(...values: T[]) {
+  let head: SingleLinkedListNode<T> | null = null;
+
+  for (let i = values.length - 1; i >= 0; i -= 1) {
+    if (head === null) {
+      head = new SingleLinkedListNode(values[i], null);
+    } else {
+      head = new SingleLinkedListNode(values[i], head);
+    }
+  }
+
+  return {
+    head,
+    tail: getTail(head) as typeof head,
+  };
+}
