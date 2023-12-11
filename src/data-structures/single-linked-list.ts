@@ -146,6 +146,32 @@ export class SingleLinkedList<T> {
     return result;
   }
 
+  reverse() {
+    let updatedTempNodes: SingleLinkedListNode<T> | null = null;
+    let currentNode: SingleLinkedListNode<T> | null = this.head;
+
+    while (currentNode) {
+      if (currentNode === this.head) {
+        updatedTempNodes = currentNode;
+        currentNode = currentNode.next;
+
+        updatedTempNodes.next = null;
+        this.tail = updatedTempNodes;
+
+        continue;
+      }
+
+      const updatedNode = currentNode;
+
+      currentNode = currentNode.next;
+
+      updatedNode.next = updatedTempNodes;
+      updatedTempNodes = updatedNode;
+
+      if (currentNode === null) this.head = updatedTempNodes;
+    }
+  }
+
   clear() {
     this.head = null;
     this.tail = null;
