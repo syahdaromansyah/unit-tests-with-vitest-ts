@@ -47,9 +47,8 @@ export class DoublyLinkedList<T> {
 
     while (currentNode) {
       if (currentNode.next === null) {
-        const newNode = new DoublyLinkedListNode(null, data, null);
+        const newNode = new DoublyLinkedListNode(currentNode, data, null);
 
-        newNode.prev = currentNode;
         currentNode.next = newNode;
         this.tail = currentNode.next;
 
@@ -72,15 +71,14 @@ export class DoublyLinkedList<T> {
   }
 
   appendBeforeTail(data: T) {
-    if (this.head === null || this.tail === null) return this.appendEnd(data);
+    if (this.head === null || this.tail === null) return this.appendStart(data);
 
     let currentNode: DoublyLinkedListNode<T> | null = this.head;
 
-    if (currentNode.prev === null && currentNode.next === null)
-      return this.appendStart(data);
-
     while (currentNode) {
-      if (currentNode.prev && currentNode.next === null) {
+      if (currentNode.next === null) {
+        if (currentNode.prev === null) return this.appendStart(data);
+
         const newNode = new DoublyLinkedListNode(
           currentNode.prev,
           data,
@@ -96,25 +94,23 @@ export class DoublyLinkedList<T> {
   }
 
   appendAfterValue(data: T, value: T) {
-    if (this.head === null) return this.appendStart(data);
+    if (this.head === null || this.tail === null) return this.appendStart(data);
 
-    const newNode = new DoublyLinkedListNode(null, data, null);
-
-    let currentNode = this.head;
-
-    if (currentNode.data === value) return this.appendAfterHead(data);
+    let currentNode: DoublyLinkedListNode<T> | null = this.head;
 
     while (currentNode) {
       if (currentNode.next === null) return this.appendEnd(data);
 
-      if (currentNode.next.data === value) {
-        newNode.prev = currentNode.next;
-        newNode.next = currentNode.next.next;
+      if (currentNode.data === value) {
+        const newNode = new DoublyLinkedListNode(
+          currentNode,
+          data,
+          currentNode.next,
+        );
 
-        if (currentNode.next.next) currentNode.next.next.prev = newNode;
-        else this.tail = newNode;
+        currentNode.next.prev = newNode;
+        currentNode.next = newNode;
 
-        currentNode.next.next = newNode;
         break;
       }
 
