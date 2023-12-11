@@ -435,6 +435,25 @@ describe('A Single Linked List Data Structure', () => {
     expect(singleLinkedList['tail']).toBeNull();
   });
 
+  test('should do reverse all nodes', () => {
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray', 'Vin');
+
+    singleLinkedList['head'] = head;
+    singleLinkedList['tail'] = tail;
+
+    singleLinkedList.reverse();
+
+    mockedNodes = initNodes('Vin', 'Ray', 'Bar', 'Foo').head;
+
+    expect(singleLinkedList['head']).toEqual(mockedNodes);
+
+    expectedTail = getTail(singleLinkedList['head']);
+
+    expect(singleLinkedList['tail']).toBe(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(expectedTail);
+    expect(singleLinkedList['tail']).toEqual(getTail(mockedNodes));
+  });
+
   test('should do an iterable operation', () => {
     const data = ['Foo', 'Bar', 'Ray', 'Vin'];
     const { head, tail } = initNodes(...data);
