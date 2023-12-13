@@ -193,6 +193,36 @@ export class DoublyLinkedList<T> {
     return result;
   }
 
+  reverse() {
+    let updatedTempNodes: DoublyLinkedListNode<T> | null = null;
+    let currentNode: DoublyLinkedListNode<T> | null = this.head;
+
+    while (currentNode) {
+      if (currentNode.prev === null) {
+        updatedTempNodes = currentNode;
+        currentNode = currentNode.next;
+
+        updatedTempNodes.prev = updatedTempNodes.next;
+        updatedTempNodes.next = null;
+
+        this.tail = updatedTempNodes;
+
+        continue;
+      }
+
+      const updatedNodes = currentNode;
+
+      currentNode = currentNode.next;
+
+      updatedNodes.prev = updatedNodes.next;
+      updatedNodes.next = updatedTempNodes;
+
+      updatedTempNodes = updatedNodes;
+
+      if (currentNode === null) this.head = updatedTempNodes;
+    }
+  }
+
   clear() {
     this.head = null;
     this.tail = null;
