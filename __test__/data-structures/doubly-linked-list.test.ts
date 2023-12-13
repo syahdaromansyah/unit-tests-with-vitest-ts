@@ -484,104 +484,104 @@ describe('A Doubly Linked List Data Structure', () => {
       expect(doublyLinkedList['head']).toBeNull();
       expect(doublyLinkedList['tail']).toBeNull();
     });
+  });
 
-    test('should ignore when deleting the node on the empty linked list', () => {
-      expect(doublyLinkedList.deleteHead()).toBeNull();
-      expect(doublyLinkedList.deleteHead()).toBeNull();
+  test('should ignore when deleting the node on the empty linked list', () => {
+    expect(doublyLinkedList.deleteHead()).toBeNull();
+    expect(doublyLinkedList.deleteHead()).toBeNull();
 
-      expect(doublyLinkedList.length).toBe(0);
+    expect(doublyLinkedList.length).toBe(0);
 
-      expect(doublyLinkedList.deleteValue('Foo')).toBeNull();
-      expect(doublyLinkedList.deleteValue('Bar')).toBeNull();
+    expect(doublyLinkedList.deleteValue('Foo')).toBeNull();
+    expect(doublyLinkedList.deleteValue('Bar')).toBeNull();
 
-      expect(doublyLinkedList.length).toBe(0);
+    expect(doublyLinkedList.length).toBe(0);
 
-      expect(doublyLinkedList.deleteTail()).toBeNull();
-      expect(doublyLinkedList.deleteTail()).toBeNull();
+    expect(doublyLinkedList.deleteTail()).toBeNull();
+    expect(doublyLinkedList.deleteTail()).toBeNull();
 
-      expect(doublyLinkedList.length).toBe(0);
+    expect(doublyLinkedList.length).toBe(0);
 
-      expect(doublyLinkedList['head']).toBeNull();
-      expect(doublyLinkedList['tail']).toBeNull();
+    expect(doublyLinkedList['head']).toBeNull();
+    expect(doublyLinkedList['tail']).toBeNull();
+  });
+
+  test('should return true when the data is exist', () => {
+    const data = ['Foo', 'Bar', 'Ray'];
+    const { head, tail } = initNodes(...data);
+
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
+
+    data.forEach((value) => {
+      expect(doublyLinkedList.contain(value)).toBeTruthy();
     });
+  });
 
-    test('should return true when the data is exist', () => {
-      const data = ['Foo', 'Bar', 'Ray'];
-      const { head, tail } = initNodes(...data);
+  test('should return false when the data is not exist', () => {
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
 
-      data.forEach((value) => {
-        expect(doublyLinkedList.contain(value)).toBeTruthy();
-      });
-    });
+    expect(doublyLinkedList.contain('Zip')).toBeFalsy();
+  });
 
-    test('should return false when the data is not exist', () => {
-      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
+  test('should convert to array form', () => {
+    const data = ['Foo', 'Bar', 'Ray'];
+    const { head, tail } = initNodes(...data);
 
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
 
-      expect(doublyLinkedList.contain('Zip')).toBeFalsy();
-    });
+    expect(doublyLinkedList.toArray()).toEqual(data);
+  });
 
-    test('should convert to array form', () => {
-      const data = ['Foo', 'Bar', 'Ray'];
-      const { head, tail } = initNodes(...data);
+  test('should do reverse all nodes', () => {
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray', 'Vin');
 
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
 
-      expect(doublyLinkedList.toArray()).toEqual(data);
-    });
+    doublyLinkedList.reverse();
 
-    test('should do reverse all nodes', () => {
-      const { head, tail } = initNodes('Foo', 'Bar', 'Ray', 'Vin');
+    mockedNodes = initNodes('Vin', 'Ray', 'Bar', 'Foo').head;
 
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
+    expect(doublyLinkedList['head']).toEqual(mockedNodes);
 
-      doublyLinkedList.reverse();
+    expectedTail = getTail(doublyLinkedList['head']);
 
-      mockedNodes = initNodes('Vin', 'Ray', 'Bar', 'Foo').head;
+    expect(doublyLinkedList['tail']).toBe(expectedTail);
+    expect(doublyLinkedList['tail']).toEqual(expectedTail);
+    expect(doublyLinkedList['tail']).toEqual(getTail(mockedNodes));
+  });
 
-      expect(doublyLinkedList['head']).toEqual(mockedNodes);
+  test('should clear all data', () => {
+    const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
-      expectedTail = getTail(doublyLinkedList['head']);
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
 
-      expect(doublyLinkedList['tail']).toBe(expectedTail);
-      expect(doublyLinkedList['tail']).toEqual(expectedTail);
-      expect(doublyLinkedList['tail']).toEqual(getTail(mockedNodes));
-    });
+    doublyLinkedList.clear();
 
-    test('should clear all data', () => {
-      const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
+    expect(doublyLinkedList.length).toBe(0);
 
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
+    expect(doublyLinkedList['head']).toBeNull();
+    expect(doublyLinkedList['tail']).toBeNull();
+  });
 
-      doublyLinkedList.clear();
+  test('should do an iterable operation', () => {
+    const data = ['Foo', 'Bar', 'Ray', 'Vin'];
+    const { head, tail } = initNodes(...data);
 
-      expect(doublyLinkedList.length).toBe(0);
+    doublyLinkedList['head'] = head;
+    doublyLinkedList['tail'] = tail;
 
-      expect(doublyLinkedList['head']).toBeNull();
-      expect(doublyLinkedList['tail']).toBeNull();
-    });
-
-    test('should do an iterable operation', () => {
-      const data = ['Foo', 'Bar', 'Ray', 'Vin'];
-      const { head, tail } = initNodes(...data);
-
-      doublyLinkedList['head'] = head;
-      doublyLinkedList['tail'] = tail;
-
-      let i = 0;
-      for (const value of doublyLinkedList) {
-        expect(value).toBe(data[i]);
-        i += 1;
-      }
-    });
+    let i = 0;
+    for (const value of doublyLinkedList) {
+      expect(value).toBe(data[i]);
+      i += 1;
+    }
   });
 });
 
