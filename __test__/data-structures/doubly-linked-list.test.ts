@@ -536,6 +536,25 @@ describe('A Doubly Linked List Data Structure', () => {
       expect(doublyLinkedList.toArray()).toEqual(data);
     });
 
+    test('should do reverse all nodes', () => {
+      const { head, tail } = initNodes('Foo', 'Bar', 'Ray', 'Vin');
+
+      doublyLinkedList['head'] = head;
+      doublyLinkedList['tail'] = tail;
+
+      doublyLinkedList.reverse();
+
+      mockedNodes = initNodes('Vin', 'Ray', 'Bar', 'Foo').head;
+
+      expect(doublyLinkedList['head']).toEqual(mockedNodes);
+
+      expectedTail = getTail(doublyLinkedList['head']);
+
+      expect(doublyLinkedList['tail']).toBe(expectedTail);
+      expect(doublyLinkedList['tail']).toEqual(expectedTail);
+      expect(doublyLinkedList['tail']).toEqual(getTail(mockedNodes));
+    });
+
     test('should clear all data', () => {
       const { head, tail } = initNodes('Foo', 'Bar', 'Ray');
 
